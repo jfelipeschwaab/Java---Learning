@@ -7,9 +7,10 @@ public class Main {
         Carro meuCarro = new Carro("BMW", "B8");
         meuCarro.acelerar();
         meuCarro.acelerar();
-        meuCarro.minhaVelocidade();
+        meuCarro.velocidade();
+        meuCarro.buzinar();
+        meuCarro.frear();
+        meuCarro.detalhes();
 
-
-        meuAmigo.getNome();
     }
 }
