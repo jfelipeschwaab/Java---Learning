@@ -1,6 +1,6 @@
 package Herança;
 
-public class Veiculo {
+public abstract class  Veiculo {
     private String marca;
     private String modelo;
 
@@ -12,6 +12,8 @@ public class Veiculo {
     public void detalhes() {
         System.out.println("Marca: " + this.marca + ", Modelo: " + this.modelo);
     }
+
+    public abstract void buzinar();
 
 }
 
