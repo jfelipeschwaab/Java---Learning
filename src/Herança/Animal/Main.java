@@ -4,6 +4,8 @@ public class Main {
     public static void main(String[] args) {
         // Cria um gato
         Gato meuGato = new Gato("Aurora", 3);
+        int numeroDePatas = Gato.obterNumeroDePatas();
+        System.out.println("Número típico de patas de um gato: " + numeroDePatas);
 
         // Usa métodos da classe abstrata
         meuGato.detalhes(); // Método concreto da classe abstrata

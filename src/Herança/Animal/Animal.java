@@ -55,4 +55,8 @@ class Gato extends Animal implements Domestico {
             System.out.println("O gato está descansando");
         }
     }
+
+    public static int obterNumeroDePatas() {
+        return 4;
+    }
 }
