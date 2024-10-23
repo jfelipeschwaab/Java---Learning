@@ -3,7 +3,6 @@ package RevisaoPOO;
 import java.util.ArrayList;
 import java.util.List;
 
-// Classe abstrata Veiculo
 abstract class Veiculo {
     protected String marca;
     protected String modelo;
@@ -18,7 +17,6 @@ abstract class Veiculo {
     public abstract void exibirInformacoes();
 }
 
-// Classe Carro que herda de Veiculo
 class Carro extends Veiculo {
     public Carro(String marca, String modelo, int ano) {
         super(marca, modelo, ano);
@@ -30,7 +28,6 @@ class Carro extends Veiculo {
     }
 }
 
-// Classe Moto que herda de Veiculo
 class Moto extends Veiculo {
     public Moto(String marca, String modelo, int ano) {
         super(marca, modelo, ano);
@@ -42,7 +39,6 @@ class Moto extends Veiculo {
     }
 }
 
-// Classe Concessionaria que gerencia uma lista de Veiculos
 public class Concessionaria {
     private List<Veiculo> veiculos = new ArrayList<>();
 
