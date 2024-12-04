@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-class Produto {
+abstract class Produto {
     private String nome;
     private int quantidade;
     private double valor;
@@ -40,8 +40,40 @@ class Produto {
     }
 
     @Override
+    public abstract String toString();
+}
+
+class ProdutoPerecivel extends Produto {
+    private String validade;
+
+    public ProdutoPerecivel(String nome, int quantidade, double valor, String validade) {
+        super(nome, quantidade, valor);
+        this.validade = validade;
+    }
+
+    public String getValidade() {
+        return validade;
+    }
+
+    public void setValidade(String validade) {
+        this.validade = validade;
+    }
+
+    @Override
     public String toString() {
-        return "Nome do produto: " + nome + ", Quantidade em estoque: " + quantidade + ", Valor: R$" + String.format("%.2f", valor);
+        return "Nome do produto: " + getNome() + ", Quantidade em estoque: " + getQuantidade() + ", Valor: R$" + String.format("%.2f", getValor()) + ", Validade: " + validade;
+    }
+}
+
+class ProdutoNaoPerecivel extends Produto {
+
+    public ProdutoNaoPerecivel(String nome, int quantidade, double valor) {
+        super(nome, quantidade, valor);
+    }
+
+    @Override
+    public String toString() {
+        return "Nome do produto: " + getNome() + ", Quantidade em estoque: " + getQuantidade() + ", Valor: R$" + String.format("%.2f", getValor());
     }
 }
 
@@ -59,7 +91,7 @@ class Carrinho {
                 return;
             }
         }
-        Produto novoItem = new Produto(produto.getNome(), quantidade, produto.getValor());
+        Produto novoItem = new ProdutoNaoPerecivel(produto.getNome(), quantidade, produto.getValor());
         itens.add(novoItem);
     }
 
@@ -151,12 +183,11 @@ public class Main {
 
             opcao = Integer.parseInt(scanner.nextLine());
 
-
             switch (opcao) {
                 case 1:
                     System.out.println("\n--- Cadastro de Produtos ---");
                     System.out.print("Digite o nome do produto: ");
-                    String nome = scanner.nextLine();
+                    String nomeProduto = scanner.nextLine();
 
                     double valorDoProduto = 0;
                     while (true) {
@@ -188,9 +219,20 @@ public class Main {
                         }
                     }
 
-                    Produto novoProduto = new Produto(nome, quantidade, valorDoProduto);
-                    produtos.add(novoProduto);
-                    System.out.println("Produto cadastrado com sucesso!");
+                    System.out.print("O produto é perecível? (sim/não): ");
+                    String perecivel = scanner.nextLine().toLowerCase();
+
+                    if (perecivel.equals("sim")) {
+                        System.out.print("Digite a validade (DD/MM/AAAA): ");
+                        String validade = scanner.nextLine();
+                        ProdutoPerecivel novoProdutoPerecivel = new ProdutoPerecivel(nomeProduto, quantidade, valorDoProduto, validade);
+                        produtos.add(novoProdutoPerecivel);
+                        System.out.println("Produto perecível cadastrado com sucesso!");
+                    } else {
+                        ProdutoNaoPerecivel novoProdutoNaoPerecivel = new ProdutoNaoPerecivel(nomeProduto, quantidade, valorDoProduto);
+                        produtos.add(novoProdutoNaoPerecivel);
+                        System.out.println("Produto não perecível cadastrado com sucesso!");
+                    }
                     break;
 
                 case 2:
@@ -377,7 +419,7 @@ public class Main {
                                 break;
                             }
                             Produto produtoNoCarrinho = null;
-                            for (Produto itemDoCarrinho : carrinho.getItens()) { // Usando getter
+                            for (Produto itemDoCarrinho : carrinho.getItens()) {
                                 if (itemDoCarrinho.getNome().equalsIgnoreCase(nomeDoProdutoParaAtualizar)) {
                                     produtoNoCarrinho = itemDoCarrinho;
                                     break;
@@ -450,15 +492,13 @@ public class Main {
                     break;
 
                 case 0:
-                    System.out.println("Encerrando o sistema. Até logo!");
+                    System.out.println("Saindo...");
                     break;
 
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
-                    break;
             }
         }
-
         scanner.close();
     }
 }
